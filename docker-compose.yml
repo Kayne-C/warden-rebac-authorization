@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: warden
+      POSTGRES_PASSWORD: warden-dev-only
+      POSTGRES_DB: warden
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U warden"]
+      interval: 3s
+      retries: 20
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  warden-1: &warden
+    build: { context: . }
+    depends_on:
+      postgres: { condition: service_healthy }
+    ports: ["5600:8080"]
+    environment:
+      Warden__ConnectionString: Host=postgres;Database=warden;Username=warden;Password=warden-dev-only
+      Warden__ApiKeys__0__Key: dev-admin-key-change-me-0001
+      Warden__ApiKeys__0__Scopes__0: admin
+      Warden__ApiKeys__1__Key: dev-read-key-change-me-00002
+      Warden__ApiKeys__1__Scopes__0: read
+
+  warden-2:
+    <<: *warden
+    ports: ["5601:8080"]
+
+volumes:
+  pgdata:

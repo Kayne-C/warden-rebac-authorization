@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/bench/">
+    <Project Path="bench/Warden.Bench/Warden.Bench.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Warden.Core/Warden.Core.csproj" />
+    <Project Path="src/Warden.Server/Warden.Server.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Warden.Tests/Warden.Tests.csproj" />
+  </Folder>
+</Solution>
